@@ -10,8 +10,8 @@ namespace DEPI.DAL.Model
     {
         public Employee Employees { get; set; }
         public Department Departments { get; set; }
-        public string EmployeeID { get; set; }
-        public int DepartmentID { get; set; }
+        public string? EmployeeSsn { get; set; }
+        public int? DepartmentID { get; set; }
         public int Hours { get; set; }
 
     }

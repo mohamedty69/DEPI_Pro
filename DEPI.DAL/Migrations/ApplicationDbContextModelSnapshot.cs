@@ -30,7 +30,7 @@ namespace DEPI.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AttendanceId"));
 
-                    b.Property<int>("ScheduleId")
+                    b.Property<int?>("ScheduleId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("TimeIn")
@@ -42,7 +42,8 @@ namespace DEPI.DAL.Migrations
                     b.HasKey("AttendanceId");
 
                     b.HasIndex("ScheduleId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[ScheduleId] IS NOT NULL");
 
                     b.ToTable("Attendances");
                 });
@@ -58,8 +59,7 @@ namespace DEPI.DAL.Migrations
                     b.Property<int>("EmployeeCount")
                         .HasColumnType("int");
 
-                    b.Property<string>("EmployeeId")
-                        .IsRequired()
+                    b.Property<string>("ManagerSsn")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
@@ -68,15 +68,16 @@ namespace DEPI.DAL.Migrations
 
                     b.HasKey("DepartmentId");
 
-                    b.HasIndex("EmployeeId")
-                        .IsUnique();
+                    b.HasIndex("ManagerSsn")
+                        .IsUnique()
+                        .HasFilter("[ManagerSsn] IS NOT NULL");
 
                     b.ToTable("Departments");
                 });
 
             modelBuilder.Entity("DEPI.DAL.Model.Employee", b =>
                 {
-                    b.Property<string>("Ssn")
+                    b.Property<string>("EmployeeSsn")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Address")
@@ -87,7 +88,6 @@ namespace DEPI.DAL.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DefaultRole")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
@@ -104,26 +104,27 @@ namespace DEPI.DAL.Migrations
                     b.Property<int>("PhoneNumber")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductionLineId")
+                    b.Property<int?>("ProductionLineId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Salary")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18, 2)");
 
                     b.Property<string>("Sex")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ShiftId")
+                    b.Property<int?>("ShiftId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("VacationBalance")
+                    b.Property<int?>("VacationBalance")
                         .HasColumnType("int");
 
-                    b.HasKey("Ssn");
+                    b.HasKey("EmployeeSsn");
 
                     b.HasIndex("ManagerSsn");
 
@@ -140,7 +141,7 @@ namespace DEPI.DAL.Migrations
 
             modelBuilder.Entity("DEPI.DAL.Model.EmployeeDepartment", b =>
                 {
-                    b.Property<string>("EmployeeID")
+                    b.Property<string>("EmployeeSsn")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("DepartmentID")
@@ -149,7 +150,7 @@ namespace DEPI.DAL.Migrations
                     b.Property<int>("Hours")
                         .HasColumnType("int");
 
-                    b.HasKey("EmployeeID", "DepartmentID");
+                    b.HasKey("EmployeeSsn", "DepartmentID");
 
                     b.HasIndex("DepartmentID");
 
@@ -168,7 +169,7 @@ namespace DEPI.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ProductionId")
+                    b.Property<int?>("ProductionId")
                         .HasColumnType("int");
 
                     b.Property<string>("RequiredCount")
@@ -194,8 +195,7 @@ namespace DEPI.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MissionId"));
 
-                    b.Property<string>("AuthorizedEmployeeId")
-                        .IsRequired()
+                    b.Property<string>("AuthorizedEmployeeSsn")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Destination")
@@ -205,8 +205,7 @@ namespace DEPI.DAL.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("GoesOnEmployeeId")
-                        .IsRequired()
+                    b.Property<string>("GoesOnEmployeeSsn")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Purpose")
@@ -216,15 +215,14 @@ namespace DEPI.DAL.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("MissionId");
 
-                    b.HasIndex("AuthorizedEmployeeId");
+                    b.HasIndex("AuthorizedEmployeeSsn");
 
-                    b.HasIndex("GoesOnEmployeeId");
+                    b.HasIndex("GoesOnEmployeeSsn");
 
                     b.ToTable("Missions");
                 });
@@ -237,7 +235,7 @@ namespace DEPI.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductionLineId"));
 
-                    b.Property<int>("DepartmentId")
+                    b.Property<int?>("DepartmentId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -259,17 +257,16 @@ namespace DEPI.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ScheduleId"));
 
-                    b.Property<string>("EmployeeId")
-                        .IsRequired()
+                    b.Property<string>("EmployeeSsn")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("JopDescriptionId")
+                    b.Property<int?>("JopDescriptionId")
                         .HasColumnType("int");
 
-                    b.Property<int>("MissionId")
+                    b.Property<int?>("MissionId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductionLineId")
+                    b.Property<int?>("ProductionLineId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("ScheduleDate")
@@ -279,7 +276,7 @@ namespace DEPI.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ShiftId")
+                    b.Property<int?>("ShiftId")
                         .HasColumnType("int");
 
                     b.Property<int?>("VacationRequestId")
@@ -287,7 +284,7 @@ namespace DEPI.DAL.Migrations
 
                     b.HasKey("ScheduleId");
 
-                    b.HasIndex("EmployeeId");
+                    b.HasIndex("EmployeeSsn");
 
                     b.HasIndex("JopDescriptionId");
 
@@ -334,14 +331,12 @@ namespace DEPI.DAL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RequestId"));
 
                     b.Property<string>("RecipientEmployeeId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("RequestingEmployeeId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("ScheduleId")
+                    b.Property<int?>("ScheduleId")
                         .HasColumnType("int");
 
                     b.HasKey("RequestId");
@@ -351,7 +346,8 @@ namespace DEPI.DAL.Migrations
                     b.HasIndex("RequestingEmployeeId");
 
                     b.HasIndex("ScheduleId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[ScheduleId] IS NOT NULL");
 
                     b.ToTable("SwapRequests");
                 });
@@ -364,8 +360,7 @@ namespace DEPI.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VacationRequestId"));
 
-                    b.Property<string>("EmployeeId")
-                        .IsRequired()
+                    b.Property<string>("EmployeeSsn")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("EndDate")
@@ -378,9 +373,12 @@ namespace DEPI.DAL.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.HasKey("VacationRequestId");
 
-                    b.HasIndex("EmployeeId");
+                    b.HasIndex("EmployeeSsn");
 
                     b.ToTable("VacationRequests");
                 });
@@ -429,6 +427,9 @@ namespace DEPI.DAL.Migrations
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
@@ -587,9 +588,7 @@ namespace DEPI.DAL.Migrations
                 {
                     b.HasOne("DEPI.DAL.Model.Schedule", "Schedule")
                         .WithOne("Attendance")
-                        .HasForeignKey("DEPI.DAL.Model.Attendance", "ScheduleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DEPI.DAL.Model.Attendance", "ScheduleId");
 
                     b.Navigation("Schedule");
                 });
@@ -598,9 +597,8 @@ namespace DEPI.DAL.Migrations
                 {
                     b.HasOne("DEPI.DAL.Model.Employee", "Manager")
                         .WithOne("ManagedDepartment")
-                        .HasForeignKey("DEPI.DAL.Model.Department", "EmployeeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("DEPI.DAL.Model.Department", "ManagerSsn")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Manager");
                 });
@@ -614,15 +612,11 @@ namespace DEPI.DAL.Migrations
 
                     b.HasOne("DEPI.DAL.Model.ProductionLine", "ProductionLine")
                         .WithMany("Employees")
-                        .HasForeignKey("ProductionLineId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProductionLineId");
 
                     b.HasOne("DEPI.DAL.Model.Shift", "Shift")
                         .WithMany("Employees")
-                        .HasForeignKey("ShiftId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ShiftId");
 
                     b.HasOne("DEPI.DAL.Models.ApplicationUser", "ApplicationUser")
                         .WithOne("Employee")
@@ -642,13 +636,13 @@ namespace DEPI.DAL.Migrations
                     b.HasOne("DEPI.DAL.Model.Department", "Departments")
                         .WithMany("EmployeeDepartments")
                         .HasForeignKey("DepartmentID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("DEPI.DAL.Model.Employee", "Employees")
                         .WithMany("EmployeeDepartments")
-                        .HasForeignKey("EmployeeID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("EmployeeSsn")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Departments");
@@ -660,9 +654,7 @@ namespace DEPI.DAL.Migrations
                 {
                     b.HasOne("DEPI.DAL.Model.ProductionLine", "ProductionLine")
                         .WithMany("JopDescriptions")
-                        .HasForeignKey("ProductionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProductionId");
 
                     b.Navigation("ProductionLine");
                 });
@@ -671,15 +663,13 @@ namespace DEPI.DAL.Migrations
                 {
                     b.HasOne("DEPI.DAL.Model.Employee", "AuthorizedEmployee")
                         .WithMany("AuthorizedMissions")
-                        .HasForeignKey("AuthorizedEmployeeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("AuthorizedEmployeeSsn")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("DEPI.DAL.Model.Employee", "GoesOnEmployee")
                         .WithMany("GoesOnMissions")
-                        .HasForeignKey("GoesOnEmployeeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("GoesOnEmployeeSsn")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("AuthorizedEmployee");
 
@@ -690,9 +680,7 @@ namespace DEPI.DAL.Migrations
                 {
                     b.HasOne("DEPI.DAL.Model.Department", "Department")
                         .WithMany("ProductionLines")
-                        .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DepartmentId");
 
                     b.Navigation("Department");
                 });
@@ -701,33 +689,26 @@ namespace DEPI.DAL.Migrations
                 {
                     b.HasOne("DEPI.DAL.Model.Employee", "Employee")
                         .WithMany("Schedules")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EmployeeSsn");
 
                     b.HasOne("DEPI.DAL.Model.JopDescription", "JopDescription")
                         .WithMany("Schedules")
                         .HasForeignKey("JopDescriptionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("DEPI.DAL.Model.Mission", "Mission")
                         .WithMany("Schedules")
-                        .HasForeignKey("MissionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MissionId");
 
                     b.HasOne("DEPI.DAL.Model.ProductionLine", "ProductionLine")
                         .WithMany("Schedules")
                         .HasForeignKey("ProductionLineId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("DEPI.DAL.Model.Shift", "Shift")
                         .WithMany("Schedules")
                         .HasForeignKey("ShiftId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("DEPI.DAL.Model.VacationRequest", "VacationRequest")
                         .WithMany("Schedules")
@@ -751,20 +732,16 @@ namespace DEPI.DAL.Migrations
                     b.HasOne("DEPI.DAL.Model.Employee", "RecipientEmployee")
                         .WithMany("ReceivedSwapRequests")
                         .HasForeignKey("RecipientEmployeeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("DEPI.DAL.Model.Employee", "RequestEmployee")
                         .WithMany("SentSwapRequests")
                         .HasForeignKey("RequestingEmployeeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("DEPI.DAL.Model.Schedule", "Schedule")
                         .WithOne("SwapRequest")
-                        .HasForeignKey("DEPI.DAL.Model.SwapRequest", "ScheduleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DEPI.DAL.Model.SwapRequest", "ScheduleId");
 
                     b.Navigation("RecipientEmployee");
 
@@ -777,9 +754,7 @@ namespace DEPI.DAL.Migrations
                 {
                     b.HasOne("DEPI.DAL.Model.Employee", "Employee")
                         .WithMany("VacationRequests")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EmployeeSsn");
 
                     b.Navigation("Employee");
                 });

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DEPI.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class initialDbCreate : Migration
+    public partial class InitialCreateDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,6 +30,7 @@ namespace DEPI.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -179,7 +180,7 @@ namespace DEPI.DAL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TimeIn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TimeOut = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ScheduleId = table.Column<int>(type: "int", nullable: false)
+                    ScheduleId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -194,7 +195,7 @@ namespace DEPI.DAL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EmployeeCount = table.Column<int>(type: "int", nullable: false),
-                    EmployeeId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    ManagerSsn = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -208,7 +209,7 @@ namespace DEPI.DAL.Migrations
                     ProductionLineId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DepartmentId = table.Column<int>(type: "int", nullable: false)
+                    DepartmentId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -217,32 +218,31 @@ namespace DEPI.DAL.Migrations
                         name: "FK_ProductionLines_Departments_DepartmentId",
                         column: x => x.DepartmentId,
                         principalTable: "Departments",
-                        principalColumn: "DepartmentId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "DepartmentId");
                 });
 
             migrationBuilder.CreateTable(
                 name: "Employees",
                 columns: table => new
                 {
-                    Ssn = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    EmployeeSsn = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Salary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Salary = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     Sex = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PhoneNumber = table.Column<int>(type: "int", nullable: false),
-                    VacationBalance = table.Column<int>(type: "int", nullable: false),
-                    DefaultRole = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    VacationBalance = table.Column<int>(type: "int", nullable: true),
+                    DefaultRole = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ManagerSsn = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ShiftId = table.Column<int>(type: "int", nullable: false),
-                    ProductionLineId = table.Column<int>(type: "int", nullable: false),
+                    ShiftId = table.Column<int>(type: "int", nullable: true),
+                    ProductionLineId = table.Column<int>(type: "int", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Employees", x => x.Ssn);
+                    table.PrimaryKey("PK_Employees", x => x.EmployeeSsn);
                     table.ForeignKey(
                         name: "FK_Employees_AspNetUsers_UserId",
                         column: x => x.UserId,
@@ -252,20 +252,18 @@ namespace DEPI.DAL.Migrations
                         name: "FK_Employees_Employees_ManagerSsn",
                         column: x => x.ManagerSsn,
                         principalTable: "Employees",
-                        principalColumn: "Ssn",
+                        principalColumn: "EmployeeSsn",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Employees_ProductionLines_ProductionLineId",
                         column: x => x.ProductionLineId,
                         principalTable: "ProductionLines",
-                        principalColumn: "ProductionLineId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "ProductionLineId");
                     table.ForeignKey(
                         name: "FK_Employees_Shifts_ShiftId",
                         column: x => x.ShiftId,
                         principalTable: "Shifts",
-                        principalColumn: "ShiftId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "ShiftId");
                 });
 
             migrationBuilder.CreateTable(
@@ -277,7 +275,7 @@ namespace DEPI.DAL.Migrations
                     DailyTasks = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RequiredCount = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RoleName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProductionId = table.Column<int>(type: "int", nullable: false)
+                    ProductionId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -286,33 +284,32 @@ namespace DEPI.DAL.Migrations
                         name: "FK_JopDescriptions_ProductionLines_ProductionId",
                         column: x => x.ProductionId,
                         principalTable: "ProductionLines",
-                        principalColumn: "ProductionLineId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "ProductionLineId");
                 });
 
             migrationBuilder.CreateTable(
                 name: "EmployeeDepartments",
                 columns: table => new
                 {
-                    EmployeeID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    EmployeeSsn = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     DepartmentID = table.Column<int>(type: "int", nullable: false),
                     Hours = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EmployeeDepartments", x => new { x.EmployeeID, x.DepartmentID });
+                    table.PrimaryKey("PK_EmployeeDepartments", x => new { x.EmployeeSsn, x.DepartmentID });
                     table.ForeignKey(
                         name: "FK_EmployeeDepartments_Departments_DepartmentID",
                         column: x => x.DepartmentID,
                         principalTable: "Departments",
                         principalColumn: "DepartmentId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_EmployeeDepartments_Employees_EmployeeID",
-                        column: x => x.EmployeeID,
+                        name: "FK_EmployeeDepartments_Employees_EmployeeSsn",
+                        column: x => x.EmployeeSsn,
                         principalTable: "Employees",
-                        principalColumn: "Ssn",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "EmployeeSsn",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -321,28 +318,28 @@ namespace DEPI.DAL.Migrations
                 {
                     MissionId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
                     Purpose = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Destination = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AuthorizedEmployeeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    GoesOnEmployeeId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    AuthorizedEmployeeSsn = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    GoesOnEmployeeSsn = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Missions", x => x.MissionId);
                     table.ForeignKey(
-                        name: "FK_Missions_Employees_AuthorizedEmployeeId",
-                        column: x => x.AuthorizedEmployeeId,
+                        name: "FK_Missions_Employees_AuthorizedEmployeeSsn",
+                        column: x => x.AuthorizedEmployeeSsn,
                         principalTable: "Employees",
-                        principalColumn: "Ssn",
+                        principalColumn: "EmployeeSsn",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Missions_Employees_GoesOnEmployeeId",
-                        column: x => x.GoesOnEmployeeId,
+                        name: "FK_Missions_Employees_GoesOnEmployeeSsn",
+                        column: x => x.GoesOnEmployeeSsn,
                         principalTable: "Employees",
-                        principalColumn: "Ssn",
+                        principalColumn: "EmployeeSsn",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -355,17 +352,17 @@ namespace DEPI.DAL.Migrations
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Reason = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EmployeeId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    EmployeeSsn = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_VacationRequests", x => x.VacationRequestId);
                     table.ForeignKey(
-                        name: "FK_VacationRequests_Employees_EmployeeId",
-                        column: x => x.EmployeeId,
+                        name: "FK_VacationRequests_Employees_EmployeeSsn",
+                        column: x => x.EmployeeSsn,
                         principalTable: "Employees",
-                        principalColumn: "Ssn",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "EmployeeSsn");
                 });
 
             migrationBuilder.CreateTable(
@@ -376,46 +373,44 @@ namespace DEPI.DAL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ScheduleName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ScheduleDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EmployeeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    MissionId = table.Column<int>(type: "int", nullable: false),
-                    ShiftId = table.Column<int>(type: "int", nullable: false),
-                    JopDescriptionId = table.Column<int>(type: "int", nullable: false),
-                    ProductionLineId = table.Column<int>(type: "int", nullable: false),
+                    EmployeeSsn = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    MissionId = table.Column<int>(type: "int", nullable: true),
+                    ShiftId = table.Column<int>(type: "int", nullable: true),
+                    JopDescriptionId = table.Column<int>(type: "int", nullable: true),
+                    ProductionLineId = table.Column<int>(type: "int", nullable: true),
                     VacationRequestId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Schedules", x => x.ScheduleId);
                     table.ForeignKey(
-                        name: "FK_Schedules_Employees_EmployeeId",
-                        column: x => x.EmployeeId,
+                        name: "FK_Schedules_Employees_EmployeeSsn",
+                        column: x => x.EmployeeSsn,
                         principalTable: "Employees",
-                        principalColumn: "Ssn",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "EmployeeSsn");
                     table.ForeignKey(
                         name: "FK_Schedules_JopDescriptions_JopDescriptionId",
                         column: x => x.JopDescriptionId,
                         principalTable: "JopDescriptions",
                         principalColumn: "JopDescriptionId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Schedules_Missions_MissionId",
                         column: x => x.MissionId,
                         principalTable: "Missions",
-                        principalColumn: "MissionId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "MissionId");
                     table.ForeignKey(
                         name: "FK_Schedules_ProductionLines_ProductionLineId",
                         column: x => x.ProductionLineId,
                         principalTable: "ProductionLines",
                         principalColumn: "ProductionLineId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Schedules_Shifts_ShiftId",
                         column: x => x.ShiftId,
                         principalTable: "Shifts",
                         principalColumn: "ShiftId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Schedules_VacationRequests_VacationRequestId",
                         column: x => x.VacationRequestId,
@@ -429,9 +424,9 @@ namespace DEPI.DAL.Migrations
                 {
                     RequestId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RequestingEmployeeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RecipientEmployeeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ScheduleId = table.Column<int>(type: "int", nullable: false)
+                    RequestingEmployeeId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    RecipientEmployeeId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ScheduleId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -440,20 +435,19 @@ namespace DEPI.DAL.Migrations
                         name: "FK_SwapRequests_Employees_RecipientEmployeeId",
                         column: x => x.RecipientEmployeeId,
                         principalTable: "Employees",
-                        principalColumn: "Ssn",
+                        principalColumn: "EmployeeSsn",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_SwapRequests_Employees_RequestingEmployeeId",
                         column: x => x.RequestingEmployeeId,
                         principalTable: "Employees",
-                        principalColumn: "Ssn",
+                        principalColumn: "EmployeeSsn",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_SwapRequests_Schedules_ScheduleId",
                         column: x => x.ScheduleId,
                         principalTable: "Schedules",
-                        principalColumn: "ScheduleId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "ScheduleId");
                 });
 
             migrationBuilder.CreateIndex(
@@ -499,13 +493,15 @@ namespace DEPI.DAL.Migrations
                 name: "IX_Attendances_ScheduleId",
                 table: "Attendances",
                 column: "ScheduleId",
-                unique: true);
+                unique: true,
+                filter: "[ScheduleId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Departments_EmployeeId",
+                name: "IX_Departments_ManagerSsn",
                 table: "Departments",
-                column: "EmployeeId",
-                unique: true);
+                column: "ManagerSsn",
+                unique: true,
+                filter: "[ManagerSsn] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EmployeeDepartments_DepartmentID",
@@ -540,14 +536,14 @@ namespace DEPI.DAL.Migrations
                 column: "ProductionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Missions_AuthorizedEmployeeId",
+                name: "IX_Missions_AuthorizedEmployeeSsn",
                 table: "Missions",
-                column: "AuthorizedEmployeeId");
+                column: "AuthorizedEmployeeSsn");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Missions_GoesOnEmployeeId",
+                name: "IX_Missions_GoesOnEmployeeSsn",
                 table: "Missions",
-                column: "GoesOnEmployeeId");
+                column: "GoesOnEmployeeSsn");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductionLines_DepartmentId",
@@ -555,9 +551,9 @@ namespace DEPI.DAL.Migrations
                 column: "DepartmentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Schedules_EmployeeId",
+                name: "IX_Schedules_EmployeeSsn",
                 table: "Schedules",
-                column: "EmployeeId");
+                column: "EmployeeSsn");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Schedules_JopDescriptionId",
@@ -598,27 +594,27 @@ namespace DEPI.DAL.Migrations
                 name: "IX_SwapRequests_ScheduleId",
                 table: "SwapRequests",
                 column: "ScheduleId",
-                unique: true);
+                unique: true,
+                filter: "[ScheduleId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_VacationRequests_EmployeeId",
+                name: "IX_VacationRequests_EmployeeSsn",
                 table: "VacationRequests",
-                column: "EmployeeId");
+                column: "EmployeeSsn");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Attendances_Schedules_ScheduleId",
                 table: "Attendances",
                 column: "ScheduleId",
                 principalTable: "Schedules",
-                principalColumn: "ScheduleId",
-                onDelete: ReferentialAction.Cascade);
+                principalColumn: "ScheduleId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Departments_Employees_EmployeeId",
+                name: "FK_Departments_Employees_ManagerSsn",
                 table: "Departments",
-                column: "EmployeeId",
+                column: "ManagerSsn",
                 principalTable: "Employees",
-                principalColumn: "Ssn",
+                principalColumn: "EmployeeSsn",
                 onDelete: ReferentialAction.Restrict);
         }
 
@@ -630,7 +626,7 @@ namespace DEPI.DAL.Migrations
                 table: "Employees");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Departments_Employees_EmployeeId",
+                name: "FK_Departments_Employees_ManagerSsn",
                 table: "Departments");
 
             migrationBuilder.DropTable(

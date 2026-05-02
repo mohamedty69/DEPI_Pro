@@ -12,3 +12,4 @@ D:\Data_Structure\DEPI_Pro\DEPI.DAL\obj\Debug\net9.0\refint\DEPI.DAL.dll
 D:\Data_Structure\DEPI_Pro\DEPI.DAL\obj\Debug\net9.0\DEPI.DAL.pdb
 D:\Data_Structure\DEPI_Pro\DEPI.DAL\obj\Debug\net9.0\DEPI.DAL.genruntimeconfig.cache
 D:\Data_Structure\DEPI_Pro\DEPI.DAL\obj\Debug\net9.0\ref\DEPI.DAL.dll
+D:\Data_Structure\DEPI_Pro\DEPI.DAL\obj\Debug\net9.0\DEPI.DAL.sourcelink.json

@@ -16,7 +16,7 @@ namespace DEPI.DAL.Model
         // navigation property for manager
         public Employee Manager { get; set; }
         [ForeignKey("Manager")]
-        public string EmployeeId { get; set; }
+        public string? ManagerSsn { get; set; }
 
         // navigation property for production lines
         public List<ProductionLine> ProductionLines { get; set; }

@@ -1,4 +1,5 @@
-﻿using DEPI.DAL.Models;
+﻿using DEPI.DAL.Enums;
+using DEPI.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,8 +12,9 @@ namespace DEPI.DAL.Model
 {
     public class Employee
     {
-        [Display(Name ="EmployeeId")]
-        public string Ssn { get; set; }
+        [Key]
+        [Display(Name ="EmployeeSsn")]
+        public string EmployeeSsn { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public decimal Salary { get; set; }
@@ -20,8 +22,8 @@ namespace DEPI.DAL.Model
         public DateTime BirthDate { get; set; }
         public string Address { get; set; }
         public int PhoneNumber { get; set; }
-        public int VacationBalance { get; set; }
-        public string DefaultRole { get; set; }
+        public int? VacationBalance { get; set; }
+        public string? DefaultRole { get; set; }
 
         // navigation properties for department
         public Department ManagedDepartment { get; set; }
@@ -34,7 +36,7 @@ namespace DEPI.DAL.Model
 
         // navigation properties for shifts
         public Shift Shift { get; set; }
-        public int ShiftId { get; set; }
+        public int? ShiftId { get; set; }
 
         // navigation properties for missions
         public List<Mission> AuthorizedMissions { get; set; }
@@ -51,14 +53,14 @@ namespace DEPI.DAL.Model
 
         // navigation properties for ProductionLine
         public ProductionLine ProductionLine { get; set;}
-        public int ProductionLineId { get; set; }
+        public int? ProductionLineId { get; set; }
 
         // navigation properties for EmployeeDepartment
         public List<EmployeeDepartment> EmployeeDepartments { get; set; }
 
         // navigation properties for ApplicationUser
         public ApplicationUser ApplicationUser { get; set; }
-        public string UserId { get; set; }
+        public string? UserId { get; set; }
 
     }
 }

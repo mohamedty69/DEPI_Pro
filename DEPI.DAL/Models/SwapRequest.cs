@@ -13,13 +13,13 @@ namespace DEPI.DAL.Model
 
 
         // navigation properties for employees
-        public Employee RequestEmployee { get; set; }
-        public string RequestingEmployeeId { get; set; }
-        public Employee RecipientEmployee { get; set; }
-        public string RecipientEmployeeId { get; set; }
+        public Employee? RequestEmployee { get; set; }
+        public string? RequestingEmployeeId { get; set; }
+        public Employee? RecipientEmployee { get; set; }
+        public string? RecipientEmployeeId { get; set; }
 
         // navigation property for requesting employee's schedule
-        public Schedule Schedule { get; set; }
-        public int ScheduleId { get; set; }
+        public Schedule? Schedule { get; set; }
+        public int? ScheduleId { get; set; }
     }
 }

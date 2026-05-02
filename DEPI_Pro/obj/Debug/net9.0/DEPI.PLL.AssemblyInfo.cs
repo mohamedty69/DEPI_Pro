@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DEPI.PLL")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1dbd90181811b783f9f2b2dc23dc325ae5253fd9")]
 [assembly: System.Reflection.AssemblyProductAttribute("DEPI.PLL")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DEPI.PLL")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

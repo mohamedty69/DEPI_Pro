@@ -11,19 +11,10 @@ namespace DEPI.DAL.DbContext
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext()
-        {
-            
-        }
         public ApplicationDbContext(DbContextOptions options):base(options) 
         { 
 
         }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Server=.;Database=DEPI;Integrated Security=True;TrustServerCertificate=True");
-        }
-
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<EmployeeDepartment> EmployeeDepartments { get; set; }
@@ -41,7 +32,13 @@ namespace DEPI.DAL.DbContext
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Employee>(entity =>
             {
-                entity.HasKey(e => e.Ssn);
+                entity.Property(e => e.EmployeeSsn)
+                .ValueGeneratedNever();
+
+                entity.HasKey(e => e.EmployeeSsn);
+                entity.Property(e => e.Salary)
+                .HasColumnType("decimal(18, 2)")
+                .HasPrecision(18, 2);
 
                 entity.HasOne(e => e.Manager)
                     .WithMany(e => e.Subordinates)
@@ -68,21 +65,23 @@ namespace DEPI.DAL.DbContext
 
                 entity.HasOne(d => d.Manager)
                     .WithOne(e => e.ManagedDepartment)
-                    .HasForeignKey<Department>(d => d.EmployeeId)
+                    .HasForeignKey<Department>(d => d.ManagerSsn)
                     .OnDelete(DeleteBehavior.Restrict);
             });
 
             modelBuilder.Entity<EmployeeDepartment>(entity =>
             {
-                entity.HasKey(ed => new { ed.EmployeeID, ed.DepartmentID });
+                entity.HasKey(ed => new { ed.EmployeeSsn, ed.DepartmentID });
 
                 entity.HasOne(ed => ed.Employees)
                     .WithMany(e => e.EmployeeDepartments)
-                    .HasForeignKey(ed => ed.EmployeeID);
+                    .HasForeignKey(ed => ed.EmployeeSsn)
+                    .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(ed => ed.Departments)
                     .WithMany(d => d.EmployeeDepartments)
-                    .HasForeignKey(ed => ed.DepartmentID);
+                    .HasForeignKey(ed => ed.DepartmentID)
+                    .OnDelete(DeleteBehavior.Restrict);
             });
 
             modelBuilder.Entity<Shift>(entity =>
@@ -96,7 +95,7 @@ namespace DEPI.DAL.DbContext
 
                 entity.HasOne(s => s.Employee)
                     .WithMany(e => e.Schedules)
-                    .HasForeignKey(s => s.EmployeeId);
+                    .HasForeignKey(s => s.EmployeeSsn);
 
                 entity.HasOne(s => s.Mission)
                     .WithMany(m => m.Schedules)
@@ -104,15 +103,18 @@ namespace DEPI.DAL.DbContext
 
                 entity.HasOne(s => s.Shift)
                     .WithMany(sh => sh.Schedules)
-                    .HasForeignKey(s => s.ShiftId);
+                    .HasForeignKey(s => s.ShiftId)
+                    .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(s => s.JopDescription)
                     .WithMany(j => j.Schedules)
-                    .HasForeignKey(s => s.JopDescriptionId);
+                    .HasForeignKey(s => s.JopDescriptionId)
+                    .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(s => s.ProductionLine)
                     .WithMany(p => p.Schedules)
-                    .HasForeignKey(s => s.ProductionLineId);
+                    .HasForeignKey(s => s.ProductionLineId)
+                    .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(s => s.VacationRequest)
                     .WithMany(v => v.Schedules)
@@ -153,15 +155,15 @@ namespace DEPI.DAL.DbContext
             modelBuilder.Entity<Mission>(entity =>
             {
                 entity.HasKey(m => m.MissionId);
-
+             
                 entity.HasOne(m => m.AuthorizedEmployee)
                     .WithMany(e => e.AuthorizedMissions)
-                    .HasForeignKey(m => m.AuthorizedEmployeeId)
+                    .HasForeignKey(m => m.AuthorizedEmployeeSsn)
                     .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(m => m.GoesOnEmployee)
                     .WithMany(e => e.GoesOnMissions)
-                    .HasForeignKey(m => m.GoesOnEmployeeId)
+                    .HasForeignKey(m => m.GoesOnEmployeeSsn)
                     .OnDelete(DeleteBehavior.Restrict);
             });
 
@@ -171,7 +173,7 @@ namespace DEPI.DAL.DbContext
 
                 entity.HasOne(v => v.Employee)
                     .WithMany(e => e.VacationRequests)
-                    .HasForeignKey(v => v.EmployeeId);
+                    .HasForeignKey(v => v.EmployeeSsn);
             });
 
             modelBuilder.Entity<SwapRequest>(entity =>

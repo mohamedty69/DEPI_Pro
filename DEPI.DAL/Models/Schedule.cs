@@ -14,26 +14,26 @@ namespace DEPI.DAL.Model
 
         // navigation property for employee
         public Employee Employee { get; set; }
-        public string EmployeeId { get; set; }
+        public string? EmployeeSsn { get; set; }
 
         // navigation property for mission
         public Mission Mission { get; set; }
-        public int MissionId { get; set; }
+        public int? MissionId { get; set; }
 
         // navigation property for shift
         public Shift Shift { get; set; }
-        public int ShiftId { get; set; }
+        public int? ShiftId { get; set; }
 
         // navigation property for attendance
         public Attendance Attendance { get; set; }
 
         // navigation property for jop description
         public JopDescription JopDescription { get; set; }
-        public int JopDescriptionId { get; set; }
+        public int? JopDescriptionId { get; set; }
 
         // navigation property for production line
         public ProductionLine ProductionLine { get; set; }
-        public int ProductionLineId { get; set; }
+        public int? ProductionLineId { get; set; }
         // navigation property for vacation request
         public VacationRequest VacationRequest { get; set; }
          public int? VacationRequestId { get; set; }

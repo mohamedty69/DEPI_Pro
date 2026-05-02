@@ -17,7 +17,7 @@ namespace DEPI.DAL.Model
         public List<Schedule> Schedules { get; set; }
 
         // navigation property for ProductionLine
-        public ProductionLine ProductionLine { get; set; }
-        public int ProductionId { get; set; }
+        public ProductionLine? ProductionLine { get; set; }
+        public int? ProductionId { get; set; }
     }
 }

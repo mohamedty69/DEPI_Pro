@@ -13,7 +13,7 @@ namespace DEPI.DAL.Model
         public DateTime TimeOut { get; set; }
 
         // navigation property for schedule
-        public Schedule Schedule { get; set; }
-        public int ScheduleId { get; set; }
+        public Schedule? Schedule { get; set; }
+        public int? ScheduleId { get; set; }
     }
 }

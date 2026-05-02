@@ -13,3 +13,4 @@ D:\Data_Structure\DEPI_Pro\DEPI.BLL\obj\Debug\net9.0\DEPI.BLL.dll
 D:\Data_Structure\DEPI_Pro\DEPI.BLL\obj\Debug\net9.0\refint\DEPI.BLL.dll
 D:\Data_Structure\DEPI_Pro\DEPI.BLL\obj\Debug\net9.0\DEPI.BLL.pdb
 D:\Data_Structure\DEPI_Pro\DEPI.BLL\obj\Debug\net9.0\ref\DEPI.BLL.dll
+D:\Data_Structure\DEPI_Pro\DEPI.BLL\obj\Debug\net9.0\DEPI.BLL.sourcelink.json

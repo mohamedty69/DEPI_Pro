@@ -15,8 +15,8 @@ namespace DEPI.DAL.Model
         public List<Employee> Employees { get; set; }
 
         // navigation property for Department
-        public Department Department { get; set; }
-        public int DepartmentId { get; set; }
+        public Department? Department { get; set; }
+        public int? DepartmentId { get; set; }
 
         // navigation property for JopDescription
         public List<JopDescription> JopDescriptions { get; set; }

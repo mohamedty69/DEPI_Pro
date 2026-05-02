@@ -1,4 +1,5 @@
-﻿using DEPI.DAL.Model;
+﻿using DEPI.DAL.Enums;
+using DEPI.DAL.Model;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace DEPI.DAL.Models
 {
     public class ApplicationUser : IdentityUser
     {
+        public EmployeeStatus Status { get; set; } = EmployeeStatus.Pending;
         public Employee Employee { get; set; }
     }
 }
