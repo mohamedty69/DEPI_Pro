@@ -30,7 +30,10 @@ namespace DEPI.PLL.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Registration failed. Please try again.");
+                    foreach(var items in result.Errors)
+                    {
+                        ModelState.AddModelError("", items.Description);
+                    }
                     return View(employeeDto);
                 }
             }
@@ -42,6 +45,7 @@ namespace DEPI.PLL.Controllers
             return View();
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginDto login)
         {
             if (ModelState.IsValid) 

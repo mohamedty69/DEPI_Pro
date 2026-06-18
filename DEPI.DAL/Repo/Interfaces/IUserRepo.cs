@@ -18,5 +18,9 @@ namespace DEPI.DAL.Repo.Interfaces
         public Task<List<ApplicationUser>> GetByUsersByStatus(EmployeeStatus status);
         public Task<bool> CheckPasswordAsync(ApplicationUser user, string password);
         public Task<List<ApplicationUser>> GetAllUsersAsync();
+        public Task<IList<string>> GetRolesAsync(ApplicationUser user);
+        public Task<IdentityResult> AddToRoleAsync(ApplicationUser user, string roleName);
+        public Task<IdentityResult> ChangeUserStatusAsync(ApplicationUser user, EmployeeStatus status);
+        public Task<IdentityResult> UpdateUserRoleAsync(ApplicationUser user, string roleName);
     }
 }

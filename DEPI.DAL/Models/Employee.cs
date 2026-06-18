@@ -21,7 +21,7 @@ namespace DEPI.DAL.Model
         public string Sex { get; set; }
         public DateTime BirthDate { get; set; }
         public string Address { get; set; }
-        public int PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
         public int? VacationBalance { get; set; }
         public string? DefaultRole { get; set; }
 

@@ -38,8 +38,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Data_Structure/DEPI_Pro/DEPI_Pro/Views/Admin/DisplayAllEmployee.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGlzcGxheUFsbEVtcGxveWVlLmNzaHRtbA==
+[D:/Data_Structure/DEPI_Pro/DEPI_Pro/Views/Admin/DisplayEmployees.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGlzcGxheUVtcGxveWVlcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Data_Structure/DEPI_Pro/DEPI_Pro/Views/Admin/EditEmployee.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRWRpdEVtcGxveWVlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Data_Structure/DEPI_Pro/DEPI_Pro/Views/Admin/EditEmployeeStatusAndRole.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRWRpdEVtcGxveWVlU3RhdHVzQW5kUm9sZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Data_Structure/DEPI_Pro/DEPI_Pro/Views/Home/Index.cshtml]

@@ -1,0 +1,42 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model EditEmployeeDto
+
+<h2>Edit Employee</h2>
+
+<form asp-action="EditEmployee" method="post">
+    <input type="hidden" asp-for="Ssn" />
+    <div class="form-group">
+        <label asp-for="Salary"></label>
+        <input type="text" class="form-control" asp-for="Salary" />
+    </div>
+    <div class="form-group">
+        <label asp-for="ManagerSsn"></label>
+        <input type="text" class="form-control" asp-for="ManagerSsn" />
+    </div>
+    <div class=" form-group">
+        <label asp-for="ShiftId"></label>
+        <input type="number" class="form-control" asp-for="ShiftId" />
+    </div>
+    <div class=" form-group">
+        <label asp-for="DefaultRole"></label>
+        <input type="text" class="form-control" asp-for="DefaultRole" />
+    </div>
+    <div class=" form-group">
+        <label asp-for="ProductionLineId"></label>
+        <input type="number" class="form-control" asp-for="ProductionLineId" />
+    </div>
+    <div class=" form-group">
+        <label asp-for="Role"></label>
+        <input type="text" class="form-control" asp-for="Role" />
+    </div>
+    <div class=" form-group">
+        <label asp-for="VacationBalance"></label>
+        <input type="number" class="form-control" asp-for="VacationBalance" />
+    </div>
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+
+</form>

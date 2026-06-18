@@ -27,6 +27,6 @@ namespace DEPI.BLL.DTO
         [DataType(DataType.Date)]
         public DateTime BirthDate { get; set; }
         public string Address { get; set; }
-        public int PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
     }
 }

@@ -76,10 +76,14 @@ h1, h2, h3, h4, h5, h6 {
 
 .nav-link {
   font-weight: 500;
-  color: var(--color-text-muted) !important;
+/*  color: black;*/
+/*  color: var(--color-text-muted) !important;*/
   padding: 0.5rem 1rem !important;
   border-radius: var(--border-radius-sm);
   transition: var(--transition-normal);
+}
+.navbar-nav{
+color: black;
 }
 
 .nav-link:hover, .nav-link.active {

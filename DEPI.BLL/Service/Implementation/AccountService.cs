@@ -32,9 +32,12 @@ namespace DEPI.BLL.Service.Implementation
                 Email = employeeDto.Email,
                 UserName = employeeDto.FirstName + employeeDto.LastName,
                 PasswordHash = employeeDto.Password,
-                PhoneNumber = employeeDto.PhoneNumber.ToString()
+                PhoneNumber = employeeDto.PhoneNumber
             };
-            await _userRepo.CreateUserAsync(user, user.PasswordHash);
+            var result = await _userRepo.CreateUserAsync(user, user.PasswordHash);
+            if (result.Errors.Any()) {
+                return result;
+            }
             var employee = new Employee
             {
                 EmployeeSsn = employeeDto.EmployeeId,

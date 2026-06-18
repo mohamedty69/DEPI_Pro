@@ -35,6 +35,9 @@ namespace DEPI.DAL.DbContext
                 entity.Property(e => e.EmployeeSsn)
                 .ValueGeneratedNever();
 
+                entity.Property(e => e.PhoneNumber)
+                .HasMaxLength(11);
+
                 entity.HasKey(e => e.EmployeeSsn);
                 entity.Property(e => e.Salary)
                 .HasColumnType("decimal(18, 2)")

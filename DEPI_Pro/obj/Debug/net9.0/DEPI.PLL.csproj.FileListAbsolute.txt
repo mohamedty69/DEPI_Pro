@@ -70,7 +70,6 @@ D:\Data_Structure\DEPI_Pro\DEPI_Pro\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
 D:\Data_Structure\DEPI_Pro\DEPI_Pro\obj\Debug\net9.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 D:\Data_Structure\DEPI_Pro\DEPI_Pro\obj\Debug\net9.0\scopedcss\bundle\DEPI.PLL.styles.css
 D:\Data_Structure\DEPI_Pro\DEPI_Pro\obj\Debug\net9.0\scopedcss\projectbundle\DEPI.PLL.bundle.scp.css
-D:\Data_Structure\DEPI_Pro\DEPI_Pro\obj\Debug\net9.0\compressed\4xng29y3zp-{0}-b9sayid5wm-b9sayid5wm.gz
 D:\Data_Structure\DEPI_Pro\DEPI_Pro\obj\Debug\net9.0\compressed\i2byu6fvdc-{0}-61n19gt1b8-61n19gt1b8.gz
 D:\Data_Structure\DEPI_Pro\DEPI_Pro\obj\Debug\net9.0\compressed\20hd2qe52l-{0}-xtxxf3hu2r-xtxxf3hu2r.gz
 D:\Data_Structure\DEPI_Pro\DEPI_Pro\obj\Debug\net9.0\compressed\3lxoh06j1i-{0}-bqjiyaj88i-bqjiyaj88i.gz
@@ -353,3 +352,4 @@ D:\Data_Structure\DEPI_Pro\DEPI_Pro\bin\Debug\net9.0\Microsoft.Owin.Security.dll
 D:\Data_Structure\DEPI_Pro\DEPI_Pro\bin\Debug\net9.0\Microsoft.Owin.Security.Cookies.dll
 D:\Data_Structure\DEPI_Pro\DEPI_Pro\bin\Debug\net9.0\Microsoft.Owin.Security.OAuth.dll
 D:\Data_Structure\DEPI_Pro\DEPI_Pro\bin\Debug\net9.0\Owin.dll
+D:\Data_Structure\DEPI_Pro\DEPI_Pro\obj\Debug\net9.0\compressed\4xng29y3zp-{0}-kelrakpufg-kelrakpufg.gz
